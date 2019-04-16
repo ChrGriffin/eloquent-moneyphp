@@ -1,0 +1,28 @@
+{
+    "name": "chrgriffin/eloquent-moneyphp",
+    "description": "Automatically cast Eloquent columns to MoneyPHP objects.",
+    "type": "library",
+    "license": "MIT",
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Christian Griffin",
+            "email": "christian.griffin@live.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "moneyphp/money": "^3.2"
+    },
+    "require-dev": {
+        "illuminate/database": "^5.6",
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "EloquentMoneyPHP\\": "src",
+            "EloquentMoneyPHP\\Tests\\": "tests"
+        }
+    }
+}
