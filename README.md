@@ -51,7 +51,7 @@ In the above setup, accessing the `total_usd` or `total_eur` attribute will auto
 <?php
 
 $model = MyModel::find(1);
-$total = $model->total; // <-- this will return a MoneyPHP object
+$total = $model->total_usd; // <-- this will return a MoneyPHP object
 ```
 
 Eloquent-MoneyPHP also supports storing a money amount as a json string in a text column. 
