@@ -45,7 +45,7 @@ class MyModel extends Model
 }
 ```
 
-In the above setup, accessing the `subtotal` or `total` attribute will automatically convert the attribute to a MoneyPHP object:
+In the above setup, accessing the `total_usd` or `total_eur` attribute will automatically convert the attribute to a MoneyPHP object:
 
 ```php
 <?php
