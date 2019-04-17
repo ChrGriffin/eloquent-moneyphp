@@ -86,6 +86,7 @@ class HasCurrencyTraitTest extends TestCase
         $model = MagicAttributesOverriddenModel::make(['amount' => Money::USD(800)]);
         $this->assertEquals('bananas', $model->someAttribute);
         $this->assertEquals(800, (int)$model->getAttributes()['amount']);
+        $this->assertInstanceOf(Money::class, $model->amount);
     }
 
     /**
@@ -95,8 +96,8 @@ class HasCurrencyTraitTest extends TestCase
     public function testItConvertsIntegerToMoneyWhenGettingAmountWhenOverridingGetAttributeMethod(): void
     {
         $model = MagicAttributesOverriddenModel::make(['amount' => Money::USD(800)]);
-        $this->assertInstanceOf(Money::class, $model->amount);
         $this->assertEquals('bananas', $model->someAttribute);
+        $this->assertInstanceOf(Money::class, $model->amount);
         $this->assertEquals(800, $model->amount->getAmount());
     }
 
