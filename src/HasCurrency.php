@@ -3,7 +3,7 @@
 namespace EloquentMoneyPHP;
 
 use EloquentMoneyPHP\Exceptions\InvalidArgumentException;
-use Money\{ Money, Currency };
+use Money\{Money, Currency};
 
 trait HasCurrency
 {
@@ -14,42 +14,58 @@ trait HasCurrency
      */
     public function getAttribute($key)
     {
-        return $this->getMoneyAttribute($key);
+        if($this->attributeIsCurrency($key)) {
+            return $this->getMoneyAttribute($key);
+        }
+
+        return parent::getAttribute($key);
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return Money
      * @throws \Exception
      */
-    protected function getMoneyAttribute($key)
+    protected function getMoneyAttribute($key): Money
     {
         $value = parent::getAttribute($key);
-
-        if(!$this->attributeIsCurrency($key)) {
-            return $value;
-        }
-
-        if($this->currencies[$key] === 'json') {
-            return $this->moneyFromJson(parent::getAttribute($key));
-        }
-
-        return new Money($value, new Currency($this->currencies[$key]));
+        return $this->currencies[$key] === 'json'
+            ? $this->moneyFromJson(parent::getAttribute($key))
+            : $this->moneyFromInteger($value, $this->currencies[$key]);
     }
 
     /**
-     * @param $json
+     * @param null|string $json
      * @return Money
-     * @throws \Exception
+     * @throws InvalidArgumentException
      */
-    private function moneyFromJson($json) : Money
+    private function moneyFromJson(?string $json): Money
     {
         $json = json_decode($json, true) ?? [];
-        if(!array_key_exists('amount', $json) || !array_key_exists('currency', $json)) {
+        if (!$this->moneyJsonIsValid($json)) {
             throw new InvalidArgumentException('JSON structure invalid.');
         }
 
-        return new Money($json['amount'], new Currency($json['currency']));
+        return $this->moneyFromInteger($json['amount'], $json['currency']);
+    }
+
+    /**
+     * @param int $amount
+     * @param string $currency
+     * @return Money
+     */
+    private function moneyFromInteger(int $amount, string $currency): Money
+    {
+        return new Money($amount, new Currency($currency));
+    }
+
+    /**
+     * @param array $json
+     * @return bool
+     */
+    public function moneyJsonIsValid(array $json): bool
+    {
+        return array_key_exists('amount', $json) && array_key_exists('currency', $json);
     }
 
     /**
@@ -60,7 +76,11 @@ trait HasCurrency
      */
     public function setAttribute($key, $value)
     {
-        return $this->setMoneyAttribute($key, $value);
+        if($this->attributeIsCurrency($key)) {
+            return $this->setMoneyAttribute($key, $value);
+        }
+
+        return parent::setAttribute($key, $value);
     }
 
     /**
@@ -71,19 +91,13 @@ trait HasCurrency
      */
     protected function setMoneyAttribute($key, $value)
     {
-        if(!$this->attributeIsCurrency($key)) {
-            return parent::setAttribute($key, $value);
-        }
-
-        if(!$value instanceof Money){
+        if (!$value instanceof Money) {
             throw new InvalidArgumentException($key . ' must be an instance of ' . Money::class . '.');
         }
 
-        if($this->currencies[$key] === 'json') {
-            return parent::setAttribute($key, json_encode($value));
-        }
-
-        return parent::setAttribute($key, $value->getAmount());
+        return $this->currencies[$key] === 'json'
+            ? parent::setAttribute($key, json_encode($value))
+            : parent::setAttribute($key, $value->getAmount());
     }
 
     /**
