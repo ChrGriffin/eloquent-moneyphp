@@ -128,7 +128,7 @@ class HasCurrencyTraitTest extends TestCase
     public function testItCorrectlyIdentifiesIfAColumnIsACurrency(): void
     {
         $model = CurrencyMappedModel::make();
-        $this->assertTrue($model->attributeIsCurrency('amount'));
-        $this->assertFalse($model->attributeIsCurrency('bananas'));
+        $this->assertTrue($model->attributeIsMoney('amount'));
+        $this->assertFalse($model->attributeIsMoney('bananas'));
     }
 }

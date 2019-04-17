@@ -14,7 +14,7 @@ trait HasCurrency
      */
     public function getAttribute($key)
     {
-        if($this->attributeIsCurrency($key)) {
+        if($this->attributeIsMoney($key)) {
             return $this->getMoneyAttribute($key);
         }
 
@@ -76,7 +76,7 @@ trait HasCurrency
      */
     public function setAttribute($key, $value)
     {
-        if($this->attributeIsCurrency($key)) {
+        if($this->attributeIsMoney($key)) {
             return $this->setMoneyAttribute($key, $value);
         }
 
@@ -104,7 +104,7 @@ trait HasCurrency
      * @param $attribute
      * @return bool
      */
-    public function attributeIsCurrency($attribute): bool
+    public function attributeIsMoney($attribute): bool
     {
         return array_key_exists($attribute, $this->currencies ?? []);
     }
