@@ -6,7 +6,7 @@
 
 # Eloquent-MoneyPHP
 
-Automatically cast Eloquent columns to MoneyPHP objects.
+Automatically cast Eloquent columns to [MoneyPHP](https://github.com/moneyphp/money) objects.
 
 ## Installation
 
@@ -21,7 +21,7 @@ composer install chrgriffin/eloquent-moneyphp
 * PHP >= 7.1.3
 * Laravel >= 5.6
 
-This package does make one key assumption: that you are storing money in your database as integers, not floating point values. For example, eight dollars would be stored as `800`, instead of `8.00`. To find out why you should store currency and other floating point values this way, read more here.
+This package does make one key assumption: that you are storing money in your database as integers, not floating point values. For example, eight dollars would be stored as `800`, instead of `8.00`. To find out why you should store currency and other floating point values this way, read about the classic problem [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html).
 
 ## Usage
 
