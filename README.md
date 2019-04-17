@@ -56,11 +56,8 @@ $total = $model->total_usd; // <-- this will return a MoneyPHP object
 
 Eloquent-MoneyPHP also supports storing a money amount as a json string in a text column. 
 
-```json
-{
-  "amount": 800,
-  "currency": "USD"
-}
+```
+"{\"amount\": 800,\"currency\": \"USD\"}"
 ```
 
 Then configure your model appropriately:
