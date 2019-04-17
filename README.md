@@ -105,7 +105,7 @@ class MyModel extends Model
     
     public function getAttribute($key)
     {
-        if($this->attributeIsCurrency($key)) {
+        if($this->attributeIsMoney($key)) {
             return $this->getMoneyAttribute($key);
         }
 
@@ -114,7 +114,7 @@ class MyModel extends Model
         
     public function setAttribute($key, $value)
     {
-        if($this->attributeIsCurrency($key)) {
+        if($this->attributeIsMoney($key)) {
             return $this->setMoneyAttribute($key, $value);
         }
 
