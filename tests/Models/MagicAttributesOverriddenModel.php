@@ -5,7 +5,7 @@ namespace EloquentMoneyPHP\Tests\Models;
 use EloquentMoneyPHP\HasCurrency;
 use Illuminate\Database\Eloquent\Model;
 
-class MagicAttributesOverriddenModel extends Model
+final class MagicAttributesOverriddenModel extends Model
 {
     use HasCurrency;
 

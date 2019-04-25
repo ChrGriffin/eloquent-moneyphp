@@ -5,7 +5,7 @@ namespace EloquentMoneyPHP\Tests\Models;
 use EloquentMoneyPHP\HasCurrency;
 use Illuminate\Database\Eloquent\Model;
 
-class CurrencyMappedModel extends Model
+final class CurrencyMappedModel extends Model
 {
     use HasCurrency;
 
