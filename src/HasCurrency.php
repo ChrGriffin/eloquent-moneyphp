@@ -2,7 +2,8 @@
 
 namespace EloquentMoneyPHP;
 
-use EloquentMoneyPHP\Exceptions\InvalidArgumentException;
+use EloquentMoneyPHP\Exceptions\AttributeIsNotMoneyException;
+use EloquentMoneyPHP\Exceptions\AttributeIsNotValidMoneyJsonException;
 use Money\{Money, Currency};
 
 trait HasCurrency
@@ -10,7 +11,7 @@ trait HasCurrency
     /**
      * @param $key
      * @return Money
-     * @throws \Exception
+     * @throws AttributeIsNotValidMoneyJsonException
      */
     public function getAttribute($key)
     {
@@ -22,9 +23,9 @@ trait HasCurrency
     }
 
     /**
-     * @param string $key
+     * @param $key
      * @return Money
-     * @throws \Exception
+     * @throws AttributeIsNotValidMoneyJsonException
      */
     protected function getMoneyAttribute($key): Money
     {
@@ -37,13 +38,15 @@ trait HasCurrency
     /**
      * @param null|string $json
      * @return Money
-     * @throws InvalidArgumentException
+     * @throws AttributeIsNotValidMoneyJsonException
      */
     private function moneyFromJson(?string $json): Money
     {
         $json = json_decode($json, true) ?? [];
         if (!$this->moneyJsonIsValid($json)) {
-            throw new InvalidArgumentException('JSON structure invalid.');
+            throw new AttributeIsNotValidMoneyJsonException(
+                'JSON structure must have \'amount\' and \'currency\' keys.'
+            );
         }
 
         return $this->moneyFromInteger($json['amount'], $json['currency']);
@@ -72,7 +75,7 @@ trait HasCurrency
      * @param $key
      * @param $value
      * @return mixed
-     * @throws \Exception
+     * @throws AttributeIsNotMoneyException
      */
     public function setAttribute($key, $value)
     {
@@ -87,12 +90,12 @@ trait HasCurrency
      * @param $key
      * @param $value
      * @return mixed
-     * @throws \Exception
+     * @throws AttributeIsNotMoneyException
      */
     protected function setMoneyAttribute($key, $value)
     {
         if (!$value instanceof Money) {
-            throw new InvalidArgumentException($key . ' must be an instance of ' . Money::class . '.');
+            throw new AttributeIsNotMoneyException($key . ' must be an instance of ' . Money::class . '.');
         }
 
         return $this->currencies[$key] === 'json'

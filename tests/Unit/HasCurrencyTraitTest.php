@@ -2,6 +2,8 @@
 
 namespace EloquentMoneyPHP\Tests\Unit;
 
+use EloquentMoneyPHP\Exceptions\AttributeIsNotMoneyException;
+use EloquentMoneyPHP\Exceptions\AttributeIsNotValidMoneyJsonException;
 use EloquentMoneyPHP\Tests\{
     TestCase,
     Database\ConnectionResolver,
@@ -106,7 +108,7 @@ class HasCurrencyTraitTest extends TestCase
      */
     public function testItThrowsExpectedExceptionWhenPassingNonMoneyValue(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(AttributeIsNotMoneyException::class);
         CurrencyMappedModel::make(['amount' => 800]);
     }
 
@@ -118,7 +120,7 @@ class HasCurrencyTraitTest extends TestCase
         $model = JsonConfiguredModel::make();
         $model->getAttributes()['amount'] = json_encode(['invalid' => 'json']);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(AttributeIsNotValidMoneyJsonException::class);
         $model->amount;
     }
 
