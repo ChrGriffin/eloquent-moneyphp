@@ -10,7 +10,7 @@ trait HasCurrency
 {
     /**
      * @param $key
-     * @return Money
+     * @return mixed|Money
      * @throws AttributeIsNotValidMoneyJsonException
      */
     public function getAttribute($key)
