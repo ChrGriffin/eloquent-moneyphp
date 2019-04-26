@@ -2,16 +2,13 @@
 
 namespace EloquentMoneyPHP\Tests\Unit;
 
+use EloquentMoneyPHP\Tests\TestCase;
+use EloquentMoneyPHP\Tests\Database\ConnectionResolver;
+use EloquentMoneyPHP\Tests\Models\JsonConfiguredModel;
+use EloquentMoneyPHP\Tests\Models\MagicAttributesOverriddenModel;
+use EloquentMoneyPHP\Tests\Models\CurrencyMappedModel;
 use EloquentMoneyPHP\Exceptions\AttributeIsNotMoneyException;
 use EloquentMoneyPHP\Exceptions\AttributeIsNotValidMoneyJsonException;
-use EloquentMoneyPHP\Tests\{
-    TestCase,
-    Database\ConnectionResolver,
-    Models\JsonConfiguredModel,
-    Models\MagicAttributesOverriddenModel,
-    Models\CurrencyMappedModel
-};
-use EloquentMoneyPHP\Exceptions\InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Money\Money;
 

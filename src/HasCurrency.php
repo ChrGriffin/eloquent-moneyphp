@@ -4,7 +4,8 @@ namespace EloquentMoneyPHP;
 
 use EloquentMoneyPHP\Exceptions\AttributeIsNotMoneyException;
 use EloquentMoneyPHP\Exceptions\AttributeIsNotValidMoneyJsonException;
-use Money\{Money, Currency};
+use Money\Money;
+use Money\Currency;
 
 trait HasCurrency
 {

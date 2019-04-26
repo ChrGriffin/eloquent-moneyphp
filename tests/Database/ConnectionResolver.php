@@ -2,8 +2,9 @@
 
 namespace EloquentMoneyPHP\Tests\Database;
 
+use Illuminate\Database\ConnectionResolverInterface;
+use Illuminate\Database\SQLiteConnection;
 use PDO;
-use Illuminate\Database\{ConnectionResolverInterface, SQLiteConnection};
 
 class ConnectionResolver implements ConnectionResolverInterface
 {
