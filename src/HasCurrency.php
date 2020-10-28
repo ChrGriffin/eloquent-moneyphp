@@ -10,7 +10,6 @@ use Money\Currency;
 trait HasCurrency
 {
     /**
-     * @param $key
      * @return mixed|Money
      * @throws AttributeIsNotValidMoneyJsonException
      */
@@ -23,11 +22,7 @@ trait HasCurrency
         return parent::getAttribute($key);
     }
 
-    /**
-     * @param $key
-     * @return Money
-     * @throws AttributeIsNotValidMoneyJsonException
-     */
+    /** @throws AttributeIsNotValidMoneyJsonException */
     protected function getMoneyAttribute($key): Money
     {
         $value = parent::getAttribute($key);
@@ -36,11 +31,7 @@ trait HasCurrency
             : $this->moneyFromInteger($value, $this->currencies[$key]);
     }
 
-    /**
-     * @param null|string $json
-     * @return Money
-     * @throws AttributeIsNotValidMoneyJsonException
-     */
+    /** @throws AttributeIsNotValidMoneyJsonException */
     private function moneyFromJson(?string $json): Money
     {
         $json = json_decode($json, true) ?? [];
@@ -53,31 +44,17 @@ trait HasCurrency
         return $this->moneyFromInteger($json['amount'], $json['currency']);
     }
 
-    /**
-     * @param int $amount
-     * @param string $currency
-     * @return Money
-     */
     private function moneyFromInteger(int $amount, string $currency): Money
     {
         return new Money($amount, new Currency($currency));
     }
 
-    /**
-     * @param array $json
-     * @return bool
-     */
     public function moneyJsonIsValid(array $json): bool
     {
         return array_key_exists('amount', $json) && array_key_exists('currency', $json);
     }
 
-    /**
-     * @param $key
-     * @param $value
-     * @return mixed
-     * @throws AttributeIsNotMoneyException
-     */
+    /** @throws AttributeIsNotMoneyException */
     public function setAttribute($key, $value)
     {
         if($this->attributeIsMoney($key)) {
@@ -87,12 +64,7 @@ trait HasCurrency
         return parent::setAttribute($key, $value);
     }
 
-    /**
-     * @param $key
-     * @param $value
-     * @return mixed
-     * @throws AttributeIsNotMoneyException
-     */
+    /** @throws AttributeIsNotMoneyException */
     protected function setMoneyAttribute($key, $value)
     {
         if (!$value instanceof Money) {
@@ -104,10 +76,6 @@ trait HasCurrency
             : parent::setAttribute($key, $value->getAmount());
     }
 
-    /**
-     * @param $attribute
-     * @return bool
-     */
     public function attributeIsMoney($attribute): bool
     {
         return array_key_exists($attribute, $this->currencies ?? []);

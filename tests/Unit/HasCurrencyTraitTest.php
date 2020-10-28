@@ -14,36 +14,24 @@ use Money\Money;
 
 class HasCurrencyTraitTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
         Model::setConnectionResolver(new ConnectionResolver);
     }
 
-    /**
-     * @return void
-     */
     public function testItDoesNotThrowExceptionWhenMakingNewModelUsingIt(): void
     {
         $this->assertNotEmpty(CurrencyMappedModel::make());
     }
 
-    /**
-     * @return void
-     */
     public function testItConvertsMoneyToIntegerWhenSettingAmount(): void
     {
         $model = CurrencyMappedModel::make(['amount' => Money::USD(800)]);
         $this->assertEquals(800, (int)$model->getAttributes()['amount']);
     }
 
-    /**
-     * @return void
-     * @depends testItConvertsMoneyToIntegerWhenSettingAmount
-     */
+    /** @depends testItConvertsMoneyToIntegerWhenSettingAmount */
     public function testItConvertsIntegerToMoneyWhenGettingAmount(): void
     {
         $model = CurrencyMappedModel::make(['amount' => Money::USD(800)]);
@@ -51,9 +39,6 @@ class HasCurrencyTraitTest extends TestCase
         $this->assertEquals(800, $model->amount->getAmount());
     }
 
-    /**
-     * @return void
-     */
     public function testItConvertsMoneyToJsonWhenSettingAmountThatIsConfiguredToUseJson(): void
     {
         $model = JsonConfiguredModel::make(['amount' => Money::USD(800)]);
@@ -63,10 +48,7 @@ class HasCurrencyTraitTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     * @depends testItConvertsMoneyToJsonWhenSettingAmountThatIsConfiguredToUseJson
-     */
+    /** @depends testItConvertsMoneyToJsonWhenSettingAmountThatIsConfiguredToUseJson */
     public function testItConvertsJsonToMoneyWhenGettingAmountThatIsConfiguredToUseJson(): void
     {
         $model = JsonConfiguredModel::make(['amount' => Money::USD(800)]);
@@ -77,9 +59,6 @@ class HasCurrencyTraitTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function testItConvertsIntegerToMoneyWhenSettingAmountWhenOverridingGetAttributeMethod(): void
     {
         $model = MagicAttributesOverriddenModel::make(['amount' => Money::USD(800)]);
@@ -88,10 +67,7 @@ class HasCurrencyTraitTest extends TestCase
         $this->assertInstanceOf(Money::class, $model->amount);
     }
 
-    /**
-     * @return void
-     * @depends testItConvertsIntegerToMoneyWhenSettingAmountWhenOverridingGetAttributeMethod
-     */
+    /** @depends testItConvertsIntegerToMoneyWhenSettingAmountWhenOverridingGetAttributeMethod */
     public function testItConvertsIntegerToMoneyWhenGettingAmountWhenOverridingGetAttributeMethod(): void
     {
         $model = MagicAttributesOverriddenModel::make(['amount' => Money::USD(800)]);
@@ -100,18 +76,12 @@ class HasCurrencyTraitTest extends TestCase
         $this->assertEquals(800, $model->amount->getAmount());
     }
 
-    /**
-     * @return void
-     */
     public function testItThrowsExpectedExceptionWhenPassingNonMoneyValue(): void
     {
         $this->expectException(AttributeIsNotMoneyException::class);
         CurrencyMappedModel::make(['amount' => 800]);
     }
 
-    /**
-     * @return void
-     */
     public function testItThrowsExpectedExceptionWhenColumnJsonIsNotValid(): void
     {
         $model = JsonConfiguredModel::make();
@@ -121,9 +91,6 @@ class HasCurrencyTraitTest extends TestCase
         $model->amount;
     }
 
-    /**
-     * @return void
-     */
     public function testItCorrectlyIdentifiesIfAColumnIsACurrency(): void
     {
         $model = CurrencyMappedModel::make();
